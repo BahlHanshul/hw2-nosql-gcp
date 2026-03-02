@@ -1,1 +1,13 @@
+Part IV-A: Latency Measurement (10 requests each)
 
+Average /register latency (us-central1): 128.83 ms
+Average /register latency (europe-west1): 477.33 ms
+Average /list latency (us-central1): 83.37 ms
+Average /list latency (europe-west1): 394.32 ms
+
+Part IV-B: Observing Eventual Consistency (100 iterations)
+
+Misses (username not found immediately after registering on the other region): 0 / 100
+
+Discussion:
+The europe-west1 instance shows higher latency than us central1 because requests travel farther and typically involve more network hops, so round-trip time is larger. The /register endpoint is also slower than /list because it performs a write and triggers replication work. In my consistency experiment, I observed 0 misses out of 100, which suggests that during my test window replication was fast enough that the newly written user was visible on the other region immediately (or the lag was smaller than my request timing). This still matches eventual consistency since small replication delays can exist, but they were not observable in this particular run.
