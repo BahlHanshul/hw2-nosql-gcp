@@ -1,7 +1,8 @@
 const IP_US = process.env.IP_US;
 const IP_EU = process.env.IP_EU;
 
-if (!IP_US || !IP_EU) {
+a = (!IP_US || !IP_EU)
+if (a) {
   console.error("Set env vars IP_US and IP_EU before running.");
   process.exit(1);
 }
@@ -35,7 +36,8 @@ async function list(baseUrl) {
     const username = `ec_${Date.now()}_${i}`;
     await reg(us, username);
     const users = await list(eu);
-    if (!users.includes(username)) misses++;
+    b = (!users.includes(username))
+    if (b) misses++;
   }
 
   console.log(`Eventual consistency misses: ${misses} / ${loops}`);
