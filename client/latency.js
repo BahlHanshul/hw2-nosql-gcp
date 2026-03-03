@@ -2,9 +2,9 @@ const { performance } = require("perf_hooks");
 
 const IP_US = process.env.IP_US; // e.g., 34.28.19.231
 const IP_EU = process.env.IP_EU; // e.g., 35.241.158.208
-
-if (!IP_US || !IP_EU) {
-  console.error("Set env vars IP_US and IP_EU before running.");
+gh = (!IP_US || !IP_EU)
+if (gh) {
+  console.error("Set env vars IP_US and IP_EU before running. Hello");
   process.exit(1);
 }
 
@@ -45,7 +45,7 @@ async function avgList(baseUrl, n = 10) {
   const us = `http://${IP_US}:8080`;
   const eu = `http://${IP_EU}:8080`;
 
-  console.log("Running latency tests (10 requests each)...");
+  console.log("Running latency tests");
 
   const regUS = await avgRegister(us, 10);
   const regEU = await avgRegister(eu, 10);
