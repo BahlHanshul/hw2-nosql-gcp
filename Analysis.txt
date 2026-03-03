@@ -1,13 +1,16 @@
-Part IV-A: Latency Measurement (10 requests each)
+Part IV A: Latency Measurement (10 requests each)
 
 Average /register latency (us-central1): 128.83 ms
 Average /register latency (europe-west1): 477.33 ms
 Average /list latency (us-central1): 83.37 ms
 Average /list latency (europe-west1): 394.32 ms
 
-Part IV-B: Observing Eventual Consistency (100 iterations)
+Part IV B: Observing Eventual Consistency (100 iterations)
 
-Misses (username not found immediately after registering on the other region): 0 / 100
+Misses: 0 / 100
 
 Discussion:
-The europe-west1 instance shows higher latency than us central1 because requests travel farther and typically involve more network hops, so round-trip time is larger. The /register endpoint is also slower than /list because it performs a write and triggers replication work. In my consistency experiment, I observed 0 misses out of 100, which suggests that during my test window replication was fast enough that the newly written user was visible on the other region immediately (or the lag was smaller than my request timing). This still matches eventual consistency since small replication delays can exist, but they were not observable in this particular run.
+
+From the results, the europe-west1 instance clearly had higher latency than us-central1. This makes sense because I am most likely physically closer to the us-central1 region, so requests to europe-west1 have to travel a longer distance over the network, which increases the response time. I also noticed that the /register endpoint was slower than /list in both regions. That is expected since /register performs a write operation to Firestore, while /list only reads existing data.
+
+In the eventual consistency experiment, I observed 0 misses out of 100 iterations. This means that during my testing, the data written in one region was immediately visible in the other region every time. Even though Firestore follows an eventually consistent model, the replication delay was small enough that I did not observe any inconsistencies in my loop. This still aligns with eventual consistency, since small delays can exist, but in this particular run they were not noticeable.
