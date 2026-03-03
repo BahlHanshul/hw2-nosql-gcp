@@ -1,1 +1,11 @@
+For Part IV, I ran the testing scripts locally on my own machine instead of on the GCP virtual machines.
 
+client/latency.js:
+This script sends 10 POST requests to the /register endpoint and 10 GET requests to the /list endpoint for both the us-central1 and europe-west1 instances. For each request, I measured the time taken using performance.now() and then calculated the average latency in milliseconds for each endpoint and region.
+
+client/consistency.js:
+This script runs a loop 100 times. In each iteration, it generates a unique username, sends a POST request to /register on the us-central1 instance, and then immediately sends a GET request to /list on the europe-west1 instance. It checks whether the newly created username appears in the list and counts how many times it does not. At the end, it prints the total number of misses out of 100.
+
+Commands used (Windows PowerShell):
+$env:IP_US="34.28.19.231"; $env:IP_EU="35.241.158.208"; node .\client\latency.js
+$env:IP_US="34.28.19.231"; $env:IP_EU="35.241.158.208"; node .\client\consistency.js
